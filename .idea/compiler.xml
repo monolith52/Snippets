@@ -3,6 +3,7 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
       <module name="Snippets_main" target="1.5" />
+      <module name="Snippets_package" target="1.5" />
       <module name="Snippets_test" target="1.5" />
     </bytecodeTargetLevel>
   </component>

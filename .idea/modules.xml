@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Snippets.iml" filepath="$PROJECT_DIR$/.idea/modules/Snippets.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Snippets_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Snippets_main.iml" group="Snippets" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Snippets_package.iml" filepath="$PROJECT_DIR$/.idea/modules/Snippets_package.iml" group="Snippets" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Snippets_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Snippets_test.iml" group="Snippets" />
     </modules>
   </component>
