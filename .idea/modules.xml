@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Snippets.iml" filepath="$PROJECT_DIR$/.idea/modules/Snippets.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Snippets_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Snippets_main.iml" group="Snippets" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Snippets_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Snippets_test.iml" group="Snippets" />
+    </modules>
+  </component>
+</project>
