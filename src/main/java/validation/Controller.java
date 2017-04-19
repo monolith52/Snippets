@@ -49,7 +49,7 @@ public class Controller {
         support.setValidationDecorator(new CompoundValidationDecoration(
                 new GraphicValidationDecoration(),
                 new StyleClassValidationDecoration()));
-        support.registerValidator(textField1, Validator.createEmptyValidator(
+        support.registerValidator(textField1, false, Validator.createEmptyValidator(
                 "Text is required",
                 Severity.WARNING));
         support.registerValidator(textField2, Validator.createEqualsValidator(
