@@ -17,13 +17,15 @@ apply plugin: 'java'
 apply plugin: 'kotlin'
 apply from: 'http://dl.bintray.com/content/shemnon/javafx-gradle/0.4.0/javafx.plugin'
 
-sourceCompatibility = 1.5
+sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
+    // https://mvnrepository.com/artifact/org.controlsfx/controlsfx
+    compile group: 'org.controlsfx', name: 'controlsfx', version: '8.40.12'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }

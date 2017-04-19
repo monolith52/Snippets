@@ -1,0 +1,10 @@
+.warning{
+    -fx-border-color: orange;
+    -fx-border-width: 2;
+    -fx-text-fill: orange;
+}
+.error{
+    -fx-border-color: red;
+    -fx-border-width: 2;
+    -fx-text-fill: red;
+}
