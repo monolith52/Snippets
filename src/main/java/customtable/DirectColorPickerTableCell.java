@@ -10,7 +10,20 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 public class DirectColorPickerTableCell<S> extends TableCell<S, Color> {
-    private ColorPicker colorPicker = null;
+    private ColorPicker colorPicker;
+
+    public DirectColorPickerTableCell() {
+        colorPicker = new ColorPicker();
+        colorPicker.setOnAction(event -> {
+            S entity = getTableView().getItems().get(getIndex());
+            ObservableValue<Color> ov = getTableColumn().getCellObservableValue(entity);
+            if (ov instanceof WritableValue) {
+                @SuppressWarnings("unchecked")
+                WritableValue<Color> wv = (WritableValue<Color>)ov;
+                wv.setValue(colorPicker.getValue());
+            }
+        });
+    }
 
     @Override
     protected void updateItem(Color item, boolean empty) {
@@ -18,18 +31,6 @@ public class DirectColorPickerTableCell<S> extends TableCell<S, Color> {
         if (empty) {
             setGraphic(null);
         } else {
-            if (colorPicker == null) {
-                colorPicker = new ColorPicker();
-                colorPicker.setOnAction(event -> {
-                    S entity = getTableView().getItems().get(getIndex());
-                    ObservableValue<Color> ov = getTableColumn().getCellObservableValue(entity);
-                    if (ov instanceof WritableValue) {
-                        @SuppressWarnings("unchecked")
-                        WritableValue<Color> wv = (WritableValue<Color>)ov;
-                        wv.setValue(colorPicker.getValue());
-                    }
-                });
-            }
             colorPicker.setValue(item);
             setGraphic(colorPicker);
         }
