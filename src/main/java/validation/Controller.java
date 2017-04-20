@@ -1,5 +1,7 @@
 package validation;
 
+import static org.controlsfx.validation.Validator.*;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -8,7 +10,6 @@ import javafx.scene.paint.Color;
 import org.controlsfx.validation.Severity;
 import org.controlsfx.validation.ValidationMessage;
 import org.controlsfx.validation.ValidationSupport;
-import org.controlsfx.validation.Validator;
 import org.controlsfx.validation.decoration.CompoundValidationDecoration;
 import org.controlsfx.validation.decoration.GraphicValidationDecoration;
 import org.controlsfx.validation.decoration.StyleClassValidationDecoration;
@@ -30,8 +31,6 @@ public class Controller {
     @FXML
     private ComboBox<String> comboBox;
     @FXML
-    private ToggleButton toggleButton;
-    @FXML
     private ColorPicker colorPicker;
     @FXML
     private Slider slider;
@@ -49,25 +48,25 @@ public class Controller {
         support.setValidationDecorator(new CompoundValidationDecoration(
                 new GraphicValidationDecoration(),
                 new StyleClassValidationDecoration()));
-        support.registerValidator(textField1, false, Validator.createEmptyValidator(
+        support.registerValidator(textField1, false, createEmptyValidator(
                 "Text is required",
                 Severity.WARNING));
-        support.registerValidator(textField2, Validator.createEqualsValidator(
+        support.registerValidator(textField2, createEqualsValidator(
                 "A or B or C is required",
                 Arrays.asList("A", "B", "C")));
-        support.registerValidator(textField3, Validator.createRegexValidator(
+        support.registerValidator(textField3, createRegexValidator(
                 "Number is required",
                 Pattern.compile("^[0-9]+$"), Severity.ERROR));
-        support.registerValidator(checkBox, Validator.createEqualsValidator(
+        support.registerValidator(checkBox, createEqualsValidator(
                 "Check is required",
                 Collections.singletonList(true)));
-        support.registerValidator(comboBox, Validator.createEqualsValidator(
+        support.registerValidator(comboBox, createEqualsValidator(
                 "First item is required",
                 Collections.singletonList(comboBox.getItems().get(0))));
-        support.registerValidator(colorPicker, Validator.createEqualsValidator(
+        support.registerValidator(colorPicker, createEqualsValidator(
                 "WHITE or BLACK is required",
                 Arrays.asList(Color.WHITE, Color.BLACK)));
-        support.registerValidator(slider, Validator.createPredicateValidator(
+        support.registerValidator(slider, createPredicateValidator(
                 (Double value) ->  value > 0.0,
                 "Positive number is required"));
 
