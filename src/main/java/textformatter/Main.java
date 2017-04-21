@@ -1,4 +1,4 @@
-package customtable;
+package textformatter;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
