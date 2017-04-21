@@ -15,8 +15,7 @@ public class DirectColorPickerTableCell<S> extends TableCell<S, Color> {
     public DirectColorPickerTableCell() {
         colorPicker = new ColorPicker();
         colorPicker.setOnAction(event -> {
-            S entity = getTableView().getItems().get(getIndex());
-            ObservableValue<Color> ov = getTableColumn().getCellObservableValue(entity);
+            ObservableValue<Color> ov = getTableColumn().getCellObservableValue(getIndex());
             if (ov instanceof WritableValue) {
                 @SuppressWarnings("unchecked")
                 WritableValue<Color> wv = (WritableValue<Color>)ov;
