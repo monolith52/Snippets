@@ -30,10 +30,11 @@ public class Controller {
         column3.setCellValueFactory(new PropertyValueFactory<>("value3"));
         column4.setCellValueFactory(new PropertyValueFactory<>("value4"));
 
-        tableView.getItems().add(new Entity("Name1", "Item1", true, Color.RED));
-        tableView.getItems().add(new Entity("Name2", "Item2", true, Color.BLUE));
-        tableView.getItems().add(new Entity("Name3", "Item3", false, Color.GREEN));
-        tableView.getItems().add(new Entity("Name4", "FreeText", false, Color.ORANGE));
+        tableView.getItems().addAll(
+                new Entity("Name1", "Item1", true, Color.RED),
+                new Entity("Name2", "Item2", true, Color.BLUE),
+                new Entity("Name3", "Item3", false, Color.GREEN),
+                new Entity("Name4", "FreeText", false, Color.ORANGE));
 
         tableView.setEditable(true);
         column1.setCellFactory(column -> new TextFieldTableCell<>(new DefaultStringConverter()));
