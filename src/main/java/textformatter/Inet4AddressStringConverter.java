@@ -59,10 +59,9 @@ public class Inet4AddressStringConverter extends StringConverter<Inet4Address> {
                 c.setAnchor(c.getAnchor() - diffcount);
                 c.setCaretPosition(c.getCaretPosition() - diffcount);
                 c.setText(newStr);
-            }
 
-            // セパレータ部分は書き換えさせない
-            if (c.isDeleted()) {
+                // セパレータ部分は書き換えさせない
+            } else if (c.isDeleted()) {
                 if (SEPARATOR.contains(c.getControlText().substring(c.getRangeStart(), c.getRangeEnd()))) {
                     c.setRange(c.getRangeStart(), c.getRangeStart());
                     c.setAnchor(c.getControlAnchor());
