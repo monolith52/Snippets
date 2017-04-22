@@ -44,12 +44,15 @@ public class Inet4AddressStringConverter extends StringConverter<Inet4Address> {
 
     static UnaryOperator<TextFormatter.Change> textFormatterFilter() {
         return c -> {
+            // "."をタイプすると次のバイトを選択する
             if (".".equals(c.getText())) {
                 c.setText("");
-                c.setAnchor((c.getAnchor() - 1));
-                c.setCaretPosition(c.getCaretPosition() - 1);
+                c.setAnchor(c.getControlAnchor());
+                c.setCaretPosition(c.getControlCaretPosition());
                 c.setRange(c.getRangeStart(), c.getRangeStart());
                 selectNextSeparate(c);
+
+                // 数字以外は入力を受け付けない
             } else if (!c.getText().isEmpty()) {
                 String newStr = NOT_NUMBER_PATTERN.matcher(c.getText()).replaceAll("");
                 int diffcount = c.getText().length() - newStr.length();
@@ -57,7 +60,17 @@ public class Inet4AddressStringConverter extends StringConverter<Inet4Address> {
                 c.setCaretPosition(c.getCaretPosition() - diffcount);
                 c.setText(newStr);
             }
-            if (!c.isContentChange()) {
+
+            // セパレータ部分は書き換えさせない
+            if (c.isDeleted()) {
+                if (SEPARATOR.contains(c.getControlText().substring(c.getRangeStart(), c.getRangeEnd()))) {
+                    c.setRange(c.getRangeStart(), c.getRangeStart());
+                    c.setAnchor(c.getControlAnchor());
+                    c.setCaretPosition(c.getControlCaretPosition());
+                }
+
+                // セパレータ部分は選択させない
+            } else if (!c.isContentChange()) {
                 if (c.getAnchor() > 0 && c.getControlText().charAt(c.getAnchor() - 1) == '.')
                     c.setAnchor(c.getAnchor() + 1);
                 if (c.getAnchor() < c.getControlText().length() && c.getControlText().charAt(c.getAnchor()) == '.')
@@ -67,10 +80,11 @@ public class Inet4AddressStringConverter extends StringConverter<Inet4Address> {
                     if (spaceIndex != -1) c.setCaretPosition(Math.min(spaceIndex, c.getCaretPosition()));
                 }
                 if (c.getAnchor() > c.getCaretPosition()) {
-                    int spaceIndex = c.getControlText().lastIndexOf(" ", c.getAnchor()-1);
+                    int spaceIndex = c.getControlText().lastIndexOf(" ", c.getAnchor() - 1);
                     if (spaceIndex != -1) c.setCaretPosition(Math.max(spaceIndex + 1, c.getCaretPosition()));
                 }
             }
+
             return c;
         };
     }
