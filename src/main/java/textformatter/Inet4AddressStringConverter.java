@@ -49,17 +49,13 @@ public class Inet4AddressStringConverter extends StringConverter<Inet4Address> {
         return c -> {
             // "."をタイプすると次のバイトを選択する
             if (".".equals(c.getText())) {
-                c.setText("");
-                c.selectRange(c.getControlAnchor(), c.getControlCaretPosition());
+                restrictText(c, text -> "");
                 c.setRange(c.getRangeStart(), c.getRangeStart());
                 selectNextSeparate(c);
 
                 // 数字以外は入力を受け付けない
             } else if (!c.getText().isEmpty()) {
-                String newStr = NOT_NUMBER_PATTERN.matcher(c.getText()).replaceAll("");
-                int diffcount = c.getText().length() - newStr.length();
-                c.selectRange(c.getAnchor() - diffcount, c.getCaretPosition() - diffcount);
-                c.setText(newStr);
+                restrictText(c, text -> NOT_NUMBER_PATTERN.matcher(text).replaceAll(""));
 
                 // セパレータ部分は書き換えさせない
             } else if (c.isDeleted()) {
@@ -86,6 +82,13 @@ public class Inet4AddressStringConverter extends StringConverter<Inet4Address> {
 
             return c;
         };
+    }
+
+    private static void restrictText(TextFormatter.Change c, UnaryOperator<String> restriction) {
+        String newStr = restriction.apply(c.getText());
+        int diffcount = c.getText().length() - newStr.length();
+        c.selectRange(c.getAnchor() - diffcount, c.getCaretPosition() - diffcount);
+        c.setText(newStr);
     }
 
     private static void selectNextSeparate(TextFormatter.Change c) {
