@@ -24,7 +24,7 @@ public class Inet4AddressStringConverter extends StringConverter<Inet4Address> {
         if (addr != null) {
             as = IntStream.range(0, 4).mapToObj(i -> Integer.toString(addr.getAddress()[i] & 0xFF)).collect(Collectors.toList());
         }
-        return String.join(" . ", as);
+        return String.join(SEPARATOR, as);
     }
 
     @Override
