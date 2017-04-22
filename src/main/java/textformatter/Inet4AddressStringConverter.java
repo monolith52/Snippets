@@ -44,17 +44,12 @@ public class Inet4AddressStringConverter extends StringConverter<Inet4Address> {
 
     static UnaryOperator<TextFormatter.Change> textFormatterFilter() {
         return c -> {
-            TextInputControl control = (TextInputControl) c.getControl();
             if (".".equals(c.getText())) {
                 c.setText("");
                 c.setAnchor((c.getAnchor() - 1));
                 c.setCaretPosition(c.getCaretPosition() - 1);
-                int currentIndex = getCurrentIndex(control);
-                if (currentIndex < 3) {
-                    int nextPosition = getPositionOfIndex(control, currentIndex + 1);
-                    c.setAnchor(nextPosition);
-                    c.setCaretPosition(nextPosition);
-                }
+                c.setRange(c.getRangeStart(), c.getRangeStart());
+                selectNextSeparate(c);
             } else if (!c.getText().isEmpty()) {
                 String newStr = NOT_NUMBER_PATTERN.matcher(c.getText()).replaceAll("");
                 int diffcount = c.getText().length() - newStr.length();
@@ -63,16 +58,16 @@ public class Inet4AddressStringConverter extends StringConverter<Inet4Address> {
                 c.setText(newStr);
             }
             if (!c.isContentChange()) {
-                if (c.getAnchor() > 0 && control.getText().charAt(c.getAnchor() - 1) == '.')
+                if (c.getAnchor() > 0 && c.getControlText().charAt(c.getAnchor() - 1) == '.')
                     c.setAnchor(c.getAnchor() + 1);
-                if (c.getAnchor() < control.getText().length() && control.getText().charAt(c.getAnchor()) == '.')
+                if (c.getAnchor() < c.getControlText().length() && c.getControlText().charAt(c.getAnchor()) == '.')
                     c.setAnchor(c.getAnchor() - 1);
                 if (c.getAnchor() < c.getCaretPosition()) {
-                    int spaceIndex = control.getText().indexOf(" ", c.getAnchor());
+                    int spaceIndex = c.getControlText().indexOf(" ", c.getAnchor());
                     if (spaceIndex != -1) c.setCaretPosition(Math.min(spaceIndex, c.getCaretPosition()));
                 }
                 if (c.getAnchor() > c.getCaretPosition()) {
-                    int spaceIndex = control.getText().lastIndexOf(" ", c.getAnchor()-1);
+                    int spaceIndex = c.getControlText().lastIndexOf(" ", c.getAnchor()-1);
                     if (spaceIndex != -1) c.setCaretPosition(Math.max(spaceIndex + 1, c.getCaretPosition()));
                 }
             }
@@ -80,9 +75,20 @@ public class Inet4AddressStringConverter extends StringConverter<Inet4Address> {
         };
     }
 
-    private static int getCurrentIndex(TextInputControl control) {
+    private static void selectNextSeparate(TextFormatter.Change c) {
+        TextInputControl control = (TextInputControl) c.getControl();
+        int currentIndex = getCurrentSeparateIndex(c);
+        if (currentIndex < 3) {
+            int nextBegin = getPositionOfSeparateIndex(c, currentIndex + 1);
+            c.setAnchor(nextBegin);
+            int spaceIndex = c.getControlText().indexOf(" ", nextBegin);
+            c.setCaretPosition(spaceIndex == -1 ? c.getControlText().length() : spaceIndex);
+        }
+    }
+
+    private static int getCurrentSeparateIndex(TextFormatter.Change c) {
         int count = 0, lastIndex = 0;
-        String target = control.getText().substring(0, control.getCaretPosition());
+        String target = c.getControlText().substring(0, c.getControlCaretPosition());
         while (lastIndex != -1) {
             lastIndex = target.indexOf(SEPARATOR, lastIndex);
             if (lastIndex != -1) {
@@ -93,9 +99,9 @@ public class Inet4AddressStringConverter extends StringConverter<Inet4Address> {
         return count;
     }
 
-    private static int getPositionOfIndex(TextInputControl control, int index) {
+    private static int getPositionOfSeparateIndex(TextFormatter.Change c, int index) {
         int count = 0, lastIndex = 0;
-        String target = control.getText();
+        String target = c.getControlText();
         while (lastIndex != -1) {
             if (count >= index) return lastIndex;
             lastIndex = target.indexOf(SEPARATOR, lastIndex);
