@@ -30,9 +30,12 @@ public class Inet4AddressStringConverter extends StringConverter<Inet4Address> {
     @Override
     public Inet4Address fromString(String string) {
         byte[] bytes = new byte[]{0, 0, 0, 0};
-        String[] numbers = string.split(SEPARATOR);
-        for (int i = 0; i < bytes.length && i < numbers.length; i++) {
-            bytes[i] = (byte) Math.max(0, Math.min(255, Integer.parseInt(numbers[i])));
+
+        if (string != null) {
+            String[] numbers = string.split(SEPARATOR);
+            for (int i = 0; i < bytes.length && i < numbers.length; i++) {
+                bytes[i] = (byte) Math.max(0, Math.min(255, Integer.parseInt(numbers[i])));
+            }
         }
 
         try {
