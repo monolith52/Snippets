@@ -47,8 +47,7 @@ public class Inet4AddressStringConverter extends StringConverter<Inet4Address> {
             // "."をタイプすると次のバイトを選択する
             if (".".equals(c.getText())) {
                 c.setText("");
-                c.setAnchor(c.getControlAnchor());
-                c.setCaretPosition(c.getControlCaretPosition());
+                c.selectRange(c.getControlAnchor(), c.getControlCaretPosition());
                 c.setRange(c.getRangeStart(), c.getRangeStart());
                 selectNextSeparate(c);
 
@@ -56,16 +55,14 @@ public class Inet4AddressStringConverter extends StringConverter<Inet4Address> {
             } else if (!c.getText().isEmpty()) {
                 String newStr = NOT_NUMBER_PATTERN.matcher(c.getText()).replaceAll("");
                 int diffcount = c.getText().length() - newStr.length();
-                c.setAnchor(c.getAnchor() - diffcount);
-                c.setCaretPosition(c.getCaretPosition() - diffcount);
+                c.selectRange(c.getAnchor() - diffcount, c.getCaretPosition() - diffcount);
                 c.setText(newStr);
 
                 // セパレータ部分は書き換えさせない
             } else if (c.isDeleted()) {
                 if (SEPARATOR.contains(c.getControlText().substring(c.getRangeStart(), c.getRangeEnd()))) {
                     c.setRange(c.getRangeStart(), c.getRangeStart());
-                    c.setAnchor(c.getControlAnchor());
-                    c.setCaretPosition(c.getControlCaretPosition());
+                    c.selectRange(c.getControlAnchor(), c.getControlCaretPosition());
                 }
 
                 // セパレータ部分は選択させない
@@ -93,8 +90,8 @@ public class Inet4AddressStringConverter extends StringConverter<Inet4Address> {
         int currentIndex = getCurrentSeparateIndex(c);
         if (currentIndex < 3) {
             int nextBegin = getPositionOfSeparateIndex(c, currentIndex + 1);
-            c.setAnchor(nextBegin);
             int spaceIndex = c.getControlText().indexOf(" ", nextBegin);
+            c.setAnchor(nextBegin);
             c.setCaretPosition(spaceIndex == -1 ? c.getControlText().length() : spaceIndex);
         }
     }
