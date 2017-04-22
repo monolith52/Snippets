@@ -8,7 +8,9 @@ import javafx.scene.control.TextFormatter;
 import javafx.util.converter.CurrencyStringConverter;
 import javafx.util.converter.NumberStringConverter;
 
+import java.net.Inet4Address;
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 public class Controller {
 
@@ -16,6 +18,8 @@ public class Controller {
     private TextField textField1;
     @FXML
     private TextField textField2;
+    @FXML
+    private TextField textField3;
 
     @FXML
     private void initialize() {
@@ -29,11 +33,23 @@ public class Controller {
             return change;
         });
         textField1.setTextFormatter(currencyFormatter);
+        currencyFormatter.setValue(100000);
 
+        Pattern notNumberPattern = Pattern.compile("[^0-9]");
         TextFormatter<String> lowerFormatter = new TextFormatter<>(change -> {
-            change.setText(change.getText().toLowerCase());
+            String newStr = notNumberPattern.matcher(change.getText()).replaceAll("");
+            int diffcount = change.getText().length() - newStr.length();
+            change.setAnchor(change.getAnchor() - diffcount);
+            change.setCaretPosition(change.getCaretPosition() - diffcount);
+            change.setText(newStr);
             return change;
         });
         textField2.setTextFormatter(lowerFormatter);
+
+        TextFormatter<Inet4Address> inet4addrFormatter = new TextFormatter<>(
+                new Inet4AddressStringConverter(),
+                null,
+                Inet4AddressStringConverter.textFormatterFilter());
+        textField3.setTextFormatter(inet4addrFormatter);
     }
 }
