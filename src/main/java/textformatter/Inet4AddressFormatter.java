@@ -15,7 +15,7 @@ import java.util.stream.IntStream;
 
 class Inet4AddressFormatter extends TextFormatter<Inet4Address> {
     final private static String SEPARATOR = " . ";
-    final private static Pattern NOT_NUMBER_PATTERN = Pattern.compile("[^0-9]");
+    final private static Pattern NOT_NUMBER_PATTERN = Pattern.compile("[^0-9]+");
 
     Inet4AddressFormatter(Inet4Address defaultValue) {
         super(new Inet4AddressStringConverter(),

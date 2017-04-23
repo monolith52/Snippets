@@ -35,7 +35,7 @@ public class Controller {
         textField1.setTextFormatter(currencyFormatter);
         currencyFormatter.setValue(100000);
 
-        Pattern notNumberPattern = Pattern.compile("[^0-9]");
+        Pattern notNumberPattern = Pattern.compile("[^0-9]+");
         TextFormatter<String> lowerFormatter = new TextFormatter<>(change -> {
             String newStr = notNumberPattern.matcher(change.getText()).replaceAll("");
             int diffcount = change.getText().length() - newStr.length();
