@@ -46,10 +46,6 @@ public class Controller {
         });
         textField2.setTextFormatter(lowerFormatter);
 
-        TextFormatter<Inet4Address> inet4addrFormatter = new TextFormatter<>(
-                new Inet4AddressStringConverter(),
-                null,
-                Inet4AddressStringConverter.textFormatterFilter());
-        textField3.setTextFormatter(inet4addrFormatter);
+        textField3.setTextFormatter(new Inet4AddressFormatter(null));
     }
 }
