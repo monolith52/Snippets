@@ -20,19 +20,18 @@ class Inet4AddressFormatter extends TextFormatter<Inet4Address> {
     Inet4AddressFormatter(Inet4Address defaultValue) {
         super(new Inet4AddressStringConverter(),
                 defaultValue,
-                Inet4AddressFormatter::textFormatterFilter);
+                textFormatterFilter());
     }
 
-
-    static public Change textFormatterFilter(Change c) {
-        return UnaryOperator.<TextFormatter.Change>identity()
+    static private UnaryOperator<Change> textFormatterFilter() {
+        return UnaryOperator.<Change>identity()
                 .andThen(Inet4AddressFormatter::nextSeparateFilter)
                 .andThen(Inet4AddressFormatter::disableNotNumberFilter)
                 .andThen(Inet4AddressFormatter::lockSeparatorFilter)
-                .apply(c);
+                ::apply;
     }
 
-    static private TextFormatter.Change nextSeparateFilter(TextFormatter.Change c) {
+    static private Change nextSeparateFilter(Change c) {
         // "."をタイプすると次のバイトを選択する
         if (".".equals(c.getText())) {
             restrictText(c, text -> "");
@@ -49,7 +48,7 @@ class Inet4AddressFormatter extends TextFormatter<Inet4Address> {
         return c;
     }
 
-    static private TextFormatter.Change disableNotNumberFilter(TextFormatter.Change c) {
+    static private Change disableNotNumberFilter(Change c) {
         // 数字以外は入力を受け付けない
         if (!c.getText().isEmpty()) {
             restrictText(c, text -> NOT_NUMBER_PATTERN.matcher(text).replaceAll(""));
@@ -57,7 +56,7 @@ class Inet4AddressFormatter extends TextFormatter<Inet4Address> {
         return c;
     }
 
-    static private TextFormatter.Change lockSeparatorFilter(TextFormatter.Change c) {
+    static private Change lockSeparatorFilter(Change c) {
         // セパレータ部分は書き換えさせない
         if (c.isDeleted()) {
             if (SEPARATOR.contains(c.getControlText().substring(c.getRangeStart(), c.getRangeEnd()))) {
@@ -83,14 +82,14 @@ class Inet4AddressFormatter extends TextFormatter<Inet4Address> {
         return c;
     }
 
-    static private void restrictText(TextFormatter.Change c, UnaryOperator<String> restriction) {
+    static private void restrictText(Change c, UnaryOperator<String> restriction) {
         String newStr = restriction.apply(c.getText());
         int diffcount = c.getText().length() - newStr.length();
         c.selectRange(c.getAnchor() - diffcount, c.getCaretPosition() - diffcount);
         c.setText(newStr);
     }
 
-    static private int getCurrentSeparateIndex(TextFormatter.Change c) {
+    static private int getCurrentSeparateIndex(Change c) {
         int count = 0, lastIndex = 0;
         String target = c.getControlText().substring(0, c.getControlCaretPosition());
         while (lastIndex != -1) {
@@ -103,7 +102,7 @@ class Inet4AddressFormatter extends TextFormatter<Inet4Address> {
         return count;
     }
 
-    static private int getPositionOfSeparateIndex(TextFormatter.Change c, int index) {
+    static private int getPositionOfSeparateIndex(Change c, int index) {
         int count = 0, lastIndex = 0;
         String target = c.getControlText();
         while (lastIndex != -1) {
