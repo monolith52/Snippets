@@ -1,14 +1,10 @@
 package textformatter;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.util.converter.CurrencyStringConverter;
-import javafx.util.converter.NumberStringConverter;
 
-import java.net.Inet4Address;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
@@ -34,6 +30,11 @@ public class Controller {
         });
         textField1.setTextFormatter(currencyFormatter);
         currencyFormatter.setValue(100000);
+
+        currencyFormatter.valueProperty().addListener((o, oldValue, newValue) -> {
+            textField1.setStyle(newValue.intValue() <= 30000 ?
+                    "-fx-text-fill: red" : "-fx-text-fill: black");
+        });
 
         Pattern notNumberPattern = Pattern.compile("[^0-9]+");
         TextFormatter<String> lowerFormatter = new TextFormatter<>(change -> {
