@@ -14,11 +14,12 @@ import java.util.Optional;
 
 /**
  * EventHandler for changing behavior on right or left key for TableView has
- * SelectionModel.setSelectionMode(SelectionMode.SINGLE), SelectionMode.setCellSelectionEnabled(true).
+ * SelectionModel.setSelectionMode(SelectionMode.SINGLE), SelectionModel.setCellSelectionEnabled(true).
  *
  * <pre>
  * {@code
- * yourTableView.addEventHandler(KeyEvent.KEY_PRESSED, new ScrollToColumnEventHandler(tableView));
+ * // usage
+ * yourTableView.addEventHandler(KeyEvent.KEY_PRESSED, new ScrollToColumnEventHandler(yourTableView));
  * }</pre>
  */
 class ScrollToColumnEventHandler implements EventHandler<KeyEvent> {

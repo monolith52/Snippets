@@ -39,7 +39,7 @@ public class TableController {
 ////                tableView.scrollToColumnIndex(10);
 //                ScrollToColumnEventHandler.scrollToColumnIndex(tableView, 10);
 //            }
-//                });
+//        });
 
         tableView.addEventHandler(KeyEvent.KEY_PRESSED, new ScrollToColumnEventHandler(tableView));
     }
