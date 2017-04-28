@@ -41,7 +41,7 @@ public class TableController {
 //            }
 //        });
 
-        tableView.addEventHandler(KeyEvent.KEY_PRESSED, new ScrollToColumnEventHandler(tableView));
+        tableView.addEventHandler(KeyEvent.KEY_PRESSED, new PagenateColumnEventHandler(tableView));
     }
 
 }
