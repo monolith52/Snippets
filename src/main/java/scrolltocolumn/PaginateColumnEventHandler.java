@@ -19,7 +19,7 @@ import java.util.Optional;
  * <pre>
  * {@code
  * // usage
- * yourTableView.addEventHandler(KeyEvent.KEY_PRESSED, new PagenateColumnEventHandler(yourTableView));
+ * yourTableView.addEventHandler(KeyEvent.KEY_PRESSED, new PaginateColumnEventHandler(yourTableView));
  * }</pre>
  */
 class PaginateColumnEventHandler implements EventHandler<KeyEvent> {
