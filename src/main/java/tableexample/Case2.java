@@ -38,9 +38,9 @@ public class Case2 extends Application {
         TableColumn<File, String> column1 = new TableColumn<>("filename");
         TableColumn<File, Number> column2 = new TableColumn<>("filesize");
         TableColumn<File, LocalDate> column3 = new TableColumn<>("updatetime");
-        column1.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue().getName()));
-        column2.setCellValueFactory(features -> new ReadOnlyLongWrapper(features.getValue().length()));
-        column3.setCellValueFactory(features -> new ReadOnlyObjectWrapper<>(
+        column1.setCellValueFactory(features -> new SimpleStringProperty(features.getValue().getName()));
+        column2.setCellValueFactory(features -> new SimpleLongProperty(features.getValue().length()));
+        column3.setCellValueFactory(features -> new SimpleObjectProperty<>(
                 Instant.ofEpochMilli(features.getValue().lastModified()).atZone(ZoneId.systemDefault()).toLocalDate()));
         tableView.getColumns().addAll(column1, column2, column3);
 

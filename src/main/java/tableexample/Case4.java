@@ -1,7 +1,7 @@
 package tableexample;
 
 import javafx.application.Application;
-import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -10,7 +10,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -34,7 +33,7 @@ public class Case4 extends Application {
             for (int i=0; i<rs.getMetaData().getColumnCount(); i++) {
                 final int j = i;
                 TableColumn<String[], String> column = new TableColumn<>(rs.getMetaData().getColumnName(j+1));
-                column.setCellValueFactory(features -> new ReadOnlyStringWrapper(features.getValue()[j]));
+                column.setCellValueFactory(features -> new SimpleStringProperty(features.getValue()[j]));
                 tableView.getColumns().add(column);
             }
 
