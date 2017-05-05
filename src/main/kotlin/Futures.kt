@@ -6,7 +6,7 @@ import java.util.function.Supplier
 fun main(args: Array<String>) {
     Executors.newSingleThreadExecutor().execute({
 
-        val text = HeavyRoutine().processAsync().get()
+        HeavyRoutine().processAsync().get()
         println("After HeavyRoutine on ${Thread.currentThread().name}")
 
         HeavyRoutine().processAsync(Consumer {

@@ -1,5 +1,6 @@
 package autocomplete;
 
+import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -26,6 +27,8 @@ public class Controller {
     private TextField textField3;
     @FXML
     private TextField textField4;
+    @FXML
+    private JFXTextField jfxTextField1;
 
     @FXML
     private void initialize() {
@@ -109,6 +112,18 @@ public class Controller {
                         .filter(v -> v.indexOf(request.getUserText()) == 0)
                         .collect(Collectors.toList());
             }
+        });
+
+        AutoCompletionBinding<String> completion5 = TextFields.bindAutoCompletion(jfxTextField1, request -> {
+            synchronized (suggestoins2Lock) {
+                return suggestions2.stream()
+                        .filter(v -> v.indexOf(request.getUserText()) == 0)
+                        .collect(Collectors.toList());
+            }
+        });
+
+        jfxTextField1.setOnKeyPressed(event -> {
+            if (KeyCode.DOWN.equals(event.getCode())) completion2.setUserInput(jfxTextField1.getText());
         });
     }
 }
