@@ -22,12 +22,12 @@ public class Case1 extends Application {
         primaryStage.show();
 
         TableView<MyClass> tableView = new TableView<>();
-        TableColumn<MyClass, Integer> column1 = new TableColumn<>("column1");
+        TableColumn<MyClass, Number> column1 = new TableColumn<>("column1");
         TableColumn<MyClass, String> column2 = new TableColumn<>("column2");
         TableColumn<MyClass, LocalDate> column3 = new TableColumn<>("column3");
-        column1.setCellValueFactory(new PropertyValueFactory<>("value1"));
-        column2.setCellValueFactory(new PropertyValueFactory<>("value2"));
-        column3.setCellValueFactory(new PropertyValueFactory<>("value3"));
+        column1.setCellValueFactory(feature -> feature.getValue().value1Property());
+        column2.setCellValueFactory(feature -> feature.getValue().value2Property());
+        column3.setCellValueFactory(feature -> feature.getValue().value3Property());
         tableView.getColumns().addAll(column1, column2, column3);
 
         ObservableList<MyClass> data = FXCollections.observableArrayList();
