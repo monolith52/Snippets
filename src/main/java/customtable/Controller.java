@@ -6,6 +6,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.*;
 import javafx.scene.paint.Color;
+import javafx.util.converter.BooleanStringConverter;
 import javafx.util.converter.DefaultStringConverter;
 
 import java.util.Arrays;
@@ -37,13 +38,13 @@ public class Controller {
                 new Entity("Name4", "FreeText", false, Color.ORANGE));
 
         tableView.setEditable(true);
-        column1.setCellFactory(column -> new TextFieldTableCell<>(new DefaultStringConverter()));
-        column2.setCellFactory(column -> new ChoiceBoxTableCell<>(new DefaultStringConverter(),
-                "Item1", "Item2", "Item3"));
-//        column2.setCellFactory(column -> new ComboBoxTableCell<>(new DefaultStringConverter(),
-//               "Item1", "Item2", "Item3"));
-        column3.setCellFactory(column -> new CheckBoxTableCell<>());
-//        column4.setCellFactory(column -> new ColorPickerTableCell<>());
-        column4.setCellFactory(column -> new DirectColorPickerTableCell<>());
+        column1.setCellFactory(TextFieldTableCell.forTableColumn());
+
+//        column2.setCellFactory(ChoiceBoxTableCell.forTableColumn("Item1", "Item2", "Item3"));
+        column2.setCellFactory(ComboBoxTableCell.forTableColumn("Item1", "Item2", "Item3"));
+        column3.setCellFactory(CheckBoxTableCell.forTableColumn(column3));
+//        column3.setCellFactory(TextFieldTableCell.forTableColumn(new BooleanStringConverter()));
+//        column4.setCellFactory(ColorPickerTableCell.forTableColumn());
+        column4.setCellFactory(DirectColorPickerTableCell.forTableColumn());
     }
 }

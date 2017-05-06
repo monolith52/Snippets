@@ -2,10 +2,12 @@ package customtable;
 
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.util.Callback;
 
 public class ColorPickerTableCell<S> extends TableCell<S, Color> {
     private ColorPicker colorPicker;
@@ -47,5 +49,9 @@ public class ColorPickerTableCell<S> extends TableCell<S, Color> {
             pane.setBackground(new Background(new BackgroundFill(item, null, null)));
             setGraphic(pane);
         }
+    }
+
+    public static <S> Callback<TableColumn<S, Color>, TableCell<S, Color>> forTableColumn() {
+        return column -> new ColorPickerTableCell<>();
     }
 }
